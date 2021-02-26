@@ -6,14 +6,13 @@ module.exports = {
     const { date, user, text } = req.query;
 
     let object;
+    let messagesByUser;
 
     if (date) {
       object = {};
     } else if (user) {
-      const userData = await User.findOne({ name: { $regex: user } })
-        .populate("messages")
-        .exec((err, result) => console.log(result?.messages)); // this console logs what i want
-      console.log(userData); // this is undefined
+      const userData = await User.findOne({ name: { $regex: user } });
+      messagesByUser = await Message.find({ _id: { $in: userData.messages } });
     } else if (text) {
       object = { text: { $regex: text } };
     } else {
@@ -21,7 +20,8 @@ module.exports = {
     }
 
     try {
-      const messages = await Message.find(object).sort({ date: date });
+      const messages =
+        messagesByUser || (await Message.find(object).sort({ date: date }));
       res.json(messages);
     } catch (e) {
       console.log(e);
