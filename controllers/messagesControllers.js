@@ -1,19 +1,15 @@
 const Message = require("../models/Message");
-const User = require("../models/User");
 
 module.exports = {
   getAll: async (req, res) => {
     const { date, user, text } = req.query;
 
     let object;
-    let userForPost;
 
     if (date) {
       object = { date: date };
     } else if (user) {
-      userForPost = await User.find({ name: { $regex: user } })
-        .populate("messages")
-        .exec((err, messages) => messages[0]?.messages);
+      console.log("I am not working..");
     } else if (text) {
       object = { text: { $regex: text } };
     } else {
@@ -21,8 +17,8 @@ module.exports = {
     }
 
     try {
-      const messages = await Message.find();
-      res.json(userForPost);
+      const messages = await Message.find(object);
+      res.json(messages);
     } catch (e) {
       console.log(e);
       res.sendStatus(404);
