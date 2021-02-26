@@ -2,7 +2,17 @@
 /users/:id
 /users/:id/messages
 
-user: name, password, email, populate(messages)
+User {
+  _id: String, //automatically inserted, unique, required
+  name: String, //required,
+  password: String, //required
+  email: String, //required
+  profile_img_url: String,
+  messages: [
+    message_id: String, //required
+  ],
+}
+
 
 /messages
 /massages?date=?
@@ -10,4 +20,12 @@ user: name, password, email, populate(messages)
 /massages?text=?
 /messages/:id
 
-messages: text, date, ref(user_id)
+Message {
+  _id: String, //automatically inserted, unique, required
+  date: Date //required, default: Date.now()
+  text: String //required
+  image_url: String,
+  user: { 
+    user_id: String 
+  },
+}
