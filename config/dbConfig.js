@@ -14,8 +14,8 @@ const connectDB = async () => {
     console.log(`Mongo DB connected ${conn.connection.host}`);
 
     //Bind connection to error event (to get notification of connection errors after initial connection was established)
-    /* const db = mongoose.connection;
-    db.on("error", console.error.bind(console, "MongoDB connection error:")); */
+    const db = mongoose.connection;
+    db.on("error", console.error.bind(console, "MongoDB connection error:"));
   } catch (error) {
     console.log("*** Connection failed! ***");
     console.error(error);

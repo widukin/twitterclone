@@ -1,0 +1,13 @@
+/users
+/users/:id
+/users/:id/messages
+
+user: name, password, email, populate(messages)
+
+/messages
+/massages?date=?
+/massages?user=?
+/massages?text=?
+/messages/:id
+
+messages: text, date, ref(user_id)

@@ -1,12 +1,16 @@
 const express = require("express");
 const router = express.Router();
 
-const yControllers = require("../controllers/yControllers");
+const messagesControllers = require("../controllers/messagesControllers");
 
 
 router
   .route("/")
-  .get(yControllers.getAll);
+  .get(messagesControllers.getAll)
+
+router
+  .route("/:id")
+  .get(messagesControllers.getById);
 
 /* router
   .route("/create")

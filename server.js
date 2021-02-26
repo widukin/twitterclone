@@ -12,8 +12,7 @@ const connectDB = require('./config/dbConfig');
 const bodyParser = require("body-parser");
 // ----- import routes -----
 const usersRoutes = require('./routes/usersRoutes');
-const yRoutes = require('./routes/yRoutes');
-const zRoutes = require('./routes/zRoutes');
+const messagesRoutes = require('./routes/messagesRoutes');
 
 
 // ----- database connection -----
@@ -25,8 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // ----- routes ------
 app.use("/users", usersRoutes);
-app.use("/y", yRoutes);
-app.use("/z", zRoutes);
+app.use("/messages", messagesRoutes);
 app.get("/", (req, res) => res.send("Welcome to our awesome Twitter Clone  API"));
 
 // ----- server -----
