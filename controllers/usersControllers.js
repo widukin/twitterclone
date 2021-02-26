@@ -2,17 +2,17 @@ const User = require('../models/User');
 
 module.exports = {
   getAll: async (req, res) => {
-    let { limit } = req.query;
-    limit = parseInt(limit);
-    
     try {
-      let dbResult = await User.find({}).sort({date: "desc"});
-      // if there is a query parameter limit the fight results are limited
-      if(limit) dbResult = await User.find({}).sort({name: "desc"}).limit(limit);
+      let dbResult = await User.find({}).sort({name: "asc"});
+      if(!dbResult.length) throw {
+        status: 404,
+        operation: "not found",
+        message: ` Users were not found`,
+      };
       res.json({
         code: 200,
         operation: 'success',
-        description: `fetched ${dbResult.length} User`,
+        description: `fetched ${dbResult.length} Users`,
         data: dbResult,
         msg: 'This is CORS-enabled for all origins!',
       });
@@ -21,23 +21,27 @@ module.exports = {
       res.sendStatus(404);
     }
   },
-  create: async (req, res) => {
-    const { name, password, email } = req.body;
+  getById: async (req, res) => {
+    const { id } = req.params;
     try {
-      await User.create({
-        name,
-        password,
-        email,
-      });
+      let dbResult = await User.find({ _id: id });
+      if(!dbResult.length) throw {
+        status: 404,
+        operation: "not found",
+        message: ` User with the ID ${id} was not found`,
+      };
       res.json({
         code: 200,
-        message: "User has been created successfully",
+        operation: 'success',
+        description: `fetch User with the ID ${id}`,
+        data: dbResult,
+        msg: 'This is CORS-enabled for all origins!',
       });
     } catch (error) {
-      console.log(Error(e));
+      console.log(Error(error));
       res.status(500).json({
         code: 500,
-        message: e.message,
+        message: error.message,
       });
     }
   },

@@ -9,8 +9,8 @@ router
   .get(usersControllers.getAll);
 
 router
-  .route("/create")
-  .post(usersControllers.create)
+  .route("/:id")
+  .get(usersControllers.getById)
 
 
 module.exports = router;
