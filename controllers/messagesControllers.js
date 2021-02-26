@@ -1,16 +1,14 @@
 const Message = require("../models/Message");
 const User = require("../models/User");
-// const Service = require("../services/filterMessageByUser");
 
 module.exports = {
   getAll: async (req, res) => {
     const { date, user, text } = req.query;
 
     let object;
-    let userForPost;
 
     if (date) {
-      object = { date: date };
+      object = {};
     } else if (user) {
       const userData = await User.findOne({ name: { $regex: user } })
         .populate("messages")
@@ -23,7 +21,7 @@ module.exports = {
     }
 
     try {
-      const messages = await Message.find(object);
+      const messages = await Message.find(object).sort({ date: date });
       res.json(messages);
     } catch (e) {
       console.log(e);
