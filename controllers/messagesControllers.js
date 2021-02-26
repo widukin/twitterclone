@@ -11,10 +11,11 @@ module.exports = {
     if (date) {
       object = {};
     } else if (user) {
-      const userData = await User.findOne({ name: { $regex: user } });
+      const userData = await User.findOne({ name: { $regex: new RegExp(user, "i") } });
+      //messagesByUser = await Message.find({ _id: { $in: userData.messages } });
       messagesByUser = await Message.find({ _id: { $in: userData.messages } });
     } else if (text) {
-      object = { text: { $regex: text } };
+      object = { text: { $regex: new RegExp(text, "i") } };
     } else {
       object = {};
     }
