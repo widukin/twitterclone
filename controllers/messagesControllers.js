@@ -1,4 +1,5 @@
 const Message = require("../models/Message");
+const User = require("../models/User");
 
 module.exports = {
   getAll: async (req, res) => {
@@ -7,9 +8,12 @@ module.exports = {
     let object;
 
     if (date) {
-      object = { date: date };
+      object = {};
     } else if (user) {
-      console.log("I am not working..");
+      const userData = await User.findOne({ name: { $regex: user } })
+        .populate("messages")
+        .exec((err, result) => console.log(result?.messages)); // this console logs what i want
+      console.log(userData); // this is undefined
     } else if (text) {
       object = { text: { $regex: text } };
     } else {
@@ -17,7 +21,7 @@ module.exports = {
     }
 
     try {
-      const messages = await Message.find(object);
+      const messages = await Message.find(object).sort({ date: date });
       res.json(messages);
     } catch (e) {
       console.log(e);
