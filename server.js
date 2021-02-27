@@ -9,18 +9,12 @@ const cors = require('cors');
 app.use(cors());
 // ----- data related -----
 const connectDB = require('./config/dbConfig');
-const bodyParser = require("body-parser");
 // ----- import routes -----
 const usersRoutes = require('./routes/usersRoutes');
 const messagesRoutes = require('./routes/messagesRoutes');
 
-
 // ----- database connection -----
 connectDB();
-
-// ----- bodyparsing -----
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 // ----- routes ------
 app.use("/users", usersRoutes);
